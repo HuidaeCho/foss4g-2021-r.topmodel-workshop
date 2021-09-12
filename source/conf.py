@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = "FOSS4G 2021 r.topmodel"
+project = "FOSS4G 2021 r.topmodel workshop"
 copyright = "2021 Huidae Cho"
 author = "Huidae Cho"
 
@@ -56,7 +56,7 @@ html_theme = "press"
 
 html_theme_options = {
     "external_links": [
-        ("GitHub", "https://github.com/HuidaeCho/foss4g-2021-r.topmodel")
+        ("GitHub", "https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop")
     ]
 }
 

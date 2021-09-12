@@ -1,1 +1,3 @@
-# FOSS4G 2021 workshop: Physically-based hydrologic modeling using GRASS GIS r.topmodel
+# FOSS4G 2021 r.topmodel workshop
+
+Physically-based hydrologic modeling using GRASS GIS r.topmodel
