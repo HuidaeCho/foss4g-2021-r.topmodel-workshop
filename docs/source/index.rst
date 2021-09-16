@@ -24,7 +24,7 @@ Table of contents
 
 .. toctree::
 
-   introduction/index.rst
+   introduction
    data-requirements
 
 Authors and affiliations
