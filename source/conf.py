@@ -33,6 +33,7 @@ release = "0.1.0"
 extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
+    "sphinx.ext.extlinks",
     "sphinxarg.ext"
 ]
 
@@ -67,3 +68,7 @@ html_theme_options = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 #html_static_path = ["_static"]
 html_static_path = []
+
+extlinks = {
+    "doi": ("https://dx.doi.org/%s", "doi:"),
+}
