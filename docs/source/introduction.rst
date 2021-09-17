@@ -4,11 +4,11 @@ Introduction
 GRASS GIS
 ---------
 
-The Geographic Resources Analysis Support System (GRASS) is an open-source Geographic Information System (GIS), which was originally developed by the U.S. Army Construction Engineering Research Laboratories (USA-CERL) in 1982 for land management and environmental planning.
+The Geographic Resources Analysis Support System (`GRASS <https://grass.osgeo.org/>`_) is an open-source Geographic Information System (GIS), which was originally developed by the U.S. Army Construction Engineering Research Laboratories (USA-CERL) in 1982 for land management and environmental planning.
 Its version 5.0 was released under the GNU General Public License (GPL) as an open-source project in October 1999 (Neteler et al. 2012).
 
 Latest version
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
 
 Currently, the latest stable version 7.8.5 is available from `here <https://grass.osgeo.org/download/>`_ and the source code is `hosted on GitHub <https://github.com/OSGeo/grass>`_.
 
@@ -20,7 +20,7 @@ It uses the topographic index :math:`\ln{\frac{a_i}{\tan\beta_i}}` where :math:`
 TOPMODEL assumes that areas with similar topographic indices behave in a hydrologically similar manner.
 
 Main assumptions
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^
 
 It makes three main assumptions:
 
@@ -33,9 +33,9 @@ It is best applied for watersheds for which these assumptions hold, such as humi
 Total flow consists of direct runoff from saturated areas, return flow from saturated areas where storage deficit is less than 0, and subsurface flow.
 
 r.topmodel and r.topidx
-~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^
 
-Cho (2000) rewrote TMOD9502.FOR and GRIDATB.FOR, the FORTRAN 77 version of TOPMODEL and the topographic index calculator by Beven, in C and integrated them with `GRASS GIS <https://grass.osgeo.org/>`_ as the `r.topmodel <https://grass.osgeo.org/grass80/manuals/r.topmodel.html>`_ and `r.topidx <https://grass.osgeo.org/grass80/manuals/r.topidx.html>`_ modules, respectively.
+Cho (2000) rewrote TMOD9502.FOR and GRIDATB.FOR, the FORTRAN 77 version of TOPMODEL and the topographic index calculator by Beven, in C and integrated them with GRASS GIS as the `r.topmodel <https://grass.osgeo.org/grass80/manuals/r.topmodel.html>`_ and `r.topidx <https://grass.osgeo.org/grass80/manuals/r.topidx.html>`_ modules, respectively.
 Both modules are included in the standard GRASS GIS installation.
 
 We will use these GRASS modules for today's workshop.
@@ -48,7 +48,7 @@ It was developed by Cho et al. (2011) to solve multi-modal problems in stochasti
 It is written in R and available from `its GitHub repository <https://github.com/HuidaeCho/ispso>`_.
 
 Finding minima in the Rastrigin function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. math::
    F(\vec{x})=\sum_{i=1}^D\left[x_i^2-10\cos(2\pi x_i)+10\right]

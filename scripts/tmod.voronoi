@@ -1,0 +1,132 @@
+#!/usr/bin/env python
+# GRASS GIS module for creating weather station Voronoi vector maps
+#
+# AUTHOR:       Huidae Cho
+# COPYRIGHT:    (C) 2015 by Huidae Cho
+# LICENSE:      GNU Affero General Public License v3
+
+#%module
+#% description: Creates weather station Voronoi vector maps for creating r.topmodel input files.
+#% keywords: hydrology
+#% keywords: watershed
+#% overwrite: yes
+#%end
+#%option
+#% key: prefix
+#% type: string
+#% description: Input/output map prefix
+#% required: yes
+#%end
+#%option G_OPT_V_INPUT
+#% key: prcp_voronoi
+#% label: Input Voronoi vector map of precipitation stations
+#% answer: ncdc_prcp_stations_tx_recent_voronoi
+#%end
+#%option G_OPT_V_INPUT
+#% key: evap_voronoi
+#% label: Input Voronoi vector map of evaporation stations
+#% answer: ncdc_evap_stations_tx_recent_voronoi
+#%end
+#%flag
+#% key: s
+#% description: Skip creating intermediate maps that already exist
+#%end
+
+import sys
+import os
+import grass.script as grass
+import ncdc
+
+def main():
+    global skip, overwrite, mapset
+
+    prefix = options["prefix"]
+    weather_prcp_voronoi = options["prcp_voronoi"]
+    weather_evap_voronoi = options["evap_voronoi"]
+    skip = flags["s"]
+    overwrite = grass.overwrite()
+    mapset = grass.gisenv()["MAPSET"]
+
+    # input maps
+    basin = prefix + "basin"
+
+    # output maps
+    prcp_voronoi_overlay = prefix + "prcp_voronoi_overlay"
+    prcp_voronoi = prefix + "prcp_voronoi"
+    evap_voronoi_overlay = prefix + "evap_voronoi_overlay"
+    evap_voronoi = prefix + "evap_voronoi"
+
+    set_region(basin)
+    create_basin_polygon(basin)
+    overlay_basin_and_weather_voronoi(basin, weather_prcp_voronoi,
+         prcp_voronoi_overlay)
+    overlay_basin_and_weather_voronoi(basin, weather_evap_voronoi,
+         evap_voronoi_overlay)
+    dissolve_basin_voronoi_overlay(prcp_voronoi_overlay, prcp_voronoi)
+    dissolve_basin_voronoi_overlay(evap_voronoi_overlay, evap_voronoi)
+
+def set_region(basin):
+    grass.message(_("===== Setting Region ====="))
+    if grass.run_command("g.region", rast=basin) != 0:
+        grass.fatal(_("Cannot set the computational region"))
+
+def create_basin_polygon(basin):
+    global overwrite
+
+    grass.message(_("===== Creating Basin Polygon ====="))
+
+    if skip_vector(basin):
+        return
+
+    if grass.run_command("r.to.vect", overwrite=overwrite,
+            input=basin, output=basin, type="area") != 0:
+        grass.fatal(_("Cannot create basin polygon"))
+
+def overlay_basin_and_weather_voronoi(basin, weather_voronoi, voronoi_overlay):
+    global overwrite
+
+    grass.message(_("===== Overlaying Basin and NCDC Voronoi ====="))
+
+    if skip_vector(voronoi_overlay):
+        return
+
+    if grass.run_command("v.overlay", overwrite=overwrite,
+            ainput=basin, binput=weather_voronoi, output=voronoi_overlay,
+            operator="and") != 0:
+        grass.fatal(_("Cannot overlay basin and weather voronoi"))
+
+def dissolve_basin_voronoi_overlay(voronoi_overlay, voronoi):
+    global overwrite
+
+    grass.message(_("===== Dissolving Basin Voronoi Overlay ====="))
+
+    if skip_vector(voronoi):
+        return
+
+    if grass.run_command("v.dissolve", overwrite=overwrite,
+            input=voronoi_overlay, output=voronoi, column="b_id") != 0:
+        grass.fatal(_("Cannot dissolve basin voronoi overlay"))
+
+    if grass.run_command("v.db.renamecolumn", map=voronoi,
+            column="b_id,id") != 0:
+        grass.fatal(_("Cannot dissolve basin voronoi overlay"))
+
+def raster_exists(map):
+    global mapset
+    return grass.find_file(map, element="cell", mapset=mapset)["file"] != ""
+
+def skip_raster(map):
+    global skip
+    return skip and raster_exists(map)
+
+def vector_exists(map):
+    global mapset
+    return grass.find_file(map, element="vector", mapset=mapset)["file"] != ""
+
+def skip_vector(map):
+    global skip
+    return skip and vector_exists(map)
+
+if __name__ == "__main__":
+    options, flags = grass.parser()
+    sys.exit(main())

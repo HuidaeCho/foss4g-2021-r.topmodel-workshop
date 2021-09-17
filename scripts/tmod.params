@@ -1,0 +1,556 @@
+#!/usr/bin/env python
+# GRASS GIS module for creating r.topmodel parameters file
+#
+# AUTHOR:       Huidae Cho
+# COPYRIGHT:    (C) 2015 by Huidae Cho
+# LICENSE:      GNU Affero General Public License v3
+
+#%module
+#% description: Creates r.topmodel parameters and topidxstats files.
+#% keywords: hydrology
+#% keywords: watershed
+#% overwrite: yes
+#%end
+#%option G_OPT_R_ELEV
+#%end
+#%option
+#% key: prefix
+#% type: string
+#% description: Input/output map prefix
+#% required: yes
+#%end
+#%option G_OPT_M_COORDS
+#% description: Coordinates of outlet point
+#% required: yes
+#%end
+#%option
+#% key: hacksorder
+#% type: integer
+#% description: Hack's order of the study stream. Default: the highest order
+#% required: no
+#%end
+#%flag
+#% key: s
+#% description: Skip creating intermediate maps that already exist
+#%end
+#%flag
+#% key: r
+#% description: Do not set the computational region to DEM
+#%end
+
+import sys
+import os
+import math
+import grass.script as grass
+
+def main():
+    global skip, overwrite, mapset
+
+    elev = options["elevation"]
+    prefix = options["prefix"]
+    coords = options["coordinates"]
+    hacksorder = options["hacksorder"]
+    skip = flags["s"]
+    region = not flags["r"]
+    overwrite = grass.overwrite()
+    mapset = grass.gisenv()["MAPSET"]
+
+    # output maps
+    drain = prefix + "drain"
+    streams = prefix + "streams"
+    hack = prefix + "hack"
+    outlet = prefix + "outlet"
+    flowsite = prefix + "flowsite"
+    basin = prefix + "basin"
+    flds = prefix + "flds"
+    flus = prefix + "flus"
+    fldsus = prefix + "fldsus"
+    lfp = prefix + "lfp"
+    outlets = prefix + "outlets"
+    subbasin = prefix + "subbasin"
+    params_file = prefix + "params.txt"
+    topidx = prefix + "topidx"
+    topidxstats = prefix + "topidxstats.txt"
+
+    if region:
+        res = set_region(elev)
+    else:
+        res = 30
+
+    remove_mask()
+    create_drainage(elev, drain, streams)
+    order_streams(streams, drain, hack)
+    outlet_coords = find_outlet(coords, flowsite, hack, hacksorder, outlet)
+    delineate_basin(drain, outlet_coords, basin)
+    set_mask(basin)
+    find_lfp(drain, outlet, outlet_coords, res, flds, flus, fldsus, lfp)
+    find_subbasin_outlets(lfp, outlets)
+    delineate_subbasins(outlets, drain, subbasin)
+    create_params_file(elev, prefix, basin, lfp, subbasin, coords, hacksorder,
+            params_file)
+    calculate_topidx(elev, topidx)
+    remove_mask()
+    create_topidxstats_file(topidx, topidxstats)
+
+def set_region(elev):
+    grass.message(_("===== Setting Region ====="))
+
+    nsres = 0
+    ewres = 0
+
+    p = grass.pipe_command("g.region", flags="g", rast=elev)
+    for line in p.stdout:
+        cols = line.rstrip("\n").split("=")
+        if cols[0] == "nsres":
+            nsres = float(cols[1])
+        elif cols[0] == "ewres":
+            ewres = float(cols[1])
+    p.wait()
+    if p.returncode != 0:
+        grass.fatal(_("Cannot set the computational region"))
+
+    res = nsres
+    if ewres > res:
+        res = ewres
+
+    if res == 0:
+        grass.fatal(_("No resolution defined"))
+
+    return res
+
+def create_drainage(elev, drain, streams):
+    global overwrite
+
+    grass.message(_("===== Creating Drainage ====="))
+
+    if skip_raster(drain) and skip_raster(streams):
+        return
+
+    if grass.run_command("r.watershed", overwrite=overwrite,
+            elevation=elev, threshold=100, drainage=drain, stream=streams) != 0:
+        grass.fatal(_("Cannot create drainage"))
+
+def order_streams(streams, drain, hack):
+    global overwrite
+
+    grass.message(_("===== Ordering Streams ====="))
+
+    if skip_raster(hack):
+        return
+
+    if grass.run_command("r.stream.order", overwrite=overwrite,
+            stream_rast=streams, direction=drain, hack=hack) != 0:
+        grass.fatal(_("Cannot order streams"))
+
+def find_outlet(coords, flowsite, hack, hacksorder, outlet):
+    global overwrite
+
+    grass.message(_("===== Finding Outlet ====="))
+
+    if not skip_vector(flowsite):
+        coords = coords.split(",")
+        p = grass.feed_command("v.in.ascii", overwrite=overwrite,
+                input="-", output=flowsite)
+        p.stdin.write("%s|%s\n" % (coords[0], coords[1]))
+        p.stdin.close()
+        p.wait()
+        if p.returncode != 0:
+            grass.fatal(_("Cannot create flowsite vector map"))
+
+    if not skip_raster(flowsite):
+        if grass.run_command("v.to.rast", overwrite=overwrite,
+                input=flowsite, output=flowsite, use="val") != 0:
+            grass.fatal(_("Cannot convert flowsite vector to raster"))
+
+    p = grass.pipe_command("r.distance", map="%s,%s" % (hack, flowsite))
+    outlet_coords = ""
+    for line in p.stdout:
+        output = line.rstrip("\n").split(":")
+        order = output[0]
+        if hacksorder == "" or hacksorder == order:
+            order = int(order)
+            outlet_coords = "%s,%s" % (output[3], output[4])
+            break
+    p.wait()
+    if p.returncode != 0 or outlet_coords == "":
+        grass.fatal(_("Cannot find the outlet"))
+
+    if not skip_vector(outlet):
+        coords = outlet_coords.split(",")
+        p = grass.feed_command("v.in.ascii", overwrite=overwrite,
+                input="-", output=outlet)
+        p.stdin.write("%s|%s\n" % (coords[0], coords[1]))
+        p.stdin.close()
+        p.wait()
+        if p.returncode != 0:
+            grass.fatal(_("Cannot create the outlet vector map"))
+
+    if not skip_raster(outlet):
+        if grass.run_command("v.to.rast", overwrite=overwrite,
+                input=outlet, output=outlet, use="cat") != 0:
+            grass.fatal(_("Cannot create the outlet raster map"))
+
+    return outlet_coords
+
+def delineate_basin(drain, outlet_coords, basin):
+    global overwrite
+
+    grass.message(_("===== Delineating Basin ====="))
+
+    if skip_raster(basin):
+        return
+
+    if grass.run_command("r.water.outlet", overwrite=overwrite,
+            input=drain, output=basin, coordinates=outlet_coords) != 0:
+        grass.fatal(_("Cannot delineate the basin"))
+
+def set_mask(basin):
+    if grass.run_command("g.region", rast=basin) != 0:
+        grass.fatal(_("Cannot set the computational region"))
+
+    if grass.run_command("r.mask", overwrite=True, raster=basin) != 0:
+        grass.fatal(_("Cannot set mask"))
+
+def remove_mask():
+    if raster_exists("MASK") and grass.run_command("r.mask", flags="r") != 0:
+        grass.fatal(_("Cannot remove mask"))
+
+def find_lfp(drain, outlet, outlet_coords, res, flds, flus, fldsus, lfp):
+    global overwrite
+
+    grass.message(_("===== Finding Longest Flow Path ====="))
+
+    if not skip_raster(flds):
+        if grass.run_command("r.stream.distance", overwrite=overwrite,
+                flags="o", stream_rast=outlet, direction=drain,
+                method="downstream", distance=flds) != 0:
+            grass.fatal(_("Cannot create FLDS raster map"))
+
+    if not skip_raster(flus):
+        if grass.run_command("r.stream.distance", overwrite=overwrite,
+                flags="o", stream_rast=outlet, direction=drain,
+                method="upstream", distance=flus) != 0:
+            grass.fatal(_("Cannot create FLUS raster map"))
+
+    if not skip_raster(fldsus):
+        if grass.run_command("r.mapcalc", overwrite=overwrite,
+                expression="%s=%s+%s" % (fldsus, flds, flus)) != 0:
+            grass.fatal(_("Cannot create FLDS+FLUS raster map"))
+
+    p = grass.pipe_command("r.info", flags="r", map=fldsus)
+    for line in p.stdout:
+        line = line.rstrip("\n")
+        if line.startswith("max="):
+            max = line.split("=")[1]
+            break
+    p.wait()
+    if p.returncode != 0:
+        grass.fatal(_("Cannot find the max FLDS+FLUS value"))
+
+    if not skip_raster(lfp):
+        p = grass.feed_command("r.reclass", overwrite=overwrite,
+                input=fldsus, output=lfp, rules="-")
+        max = float(max) + 1
+        min = max - 2
+        p.stdin.write("%f thru %f = 1" % (min, max))
+        p.stdin.close()
+        p.wait()
+        if p.returncode != 0:
+            grass.fatal(_("Cannot reclassify longest flow path raster map"))
+
+    if skip_vector(lfp):
+        return
+
+    if grass.run_command("r.to.vect", overwrite=overwrite,
+            input=lfp, output=lfp, type="line") != 0:
+        grass.fatal(_("Cannot convert longest flow path raster to vector"))
+
+    if grass.run_command("v.edit", map=lfp, tool="delete", query="dangle",
+            threshold="0,0,-%f" % (res * math.sqrt(2) + 0.5)) != 0:
+        grass.fatal(_("Cannot delete dangles from longest flow path vector map"))
+
+    success = False
+    for i in range(0, 100):
+        if grass.run_command("v.edit", map=lfp, tool="merge", where="") != 0:
+            grass.fatal(_("Cannot merge features in longest flow path vector map"))
+
+        p = grass.pipe_command("v.info", flags="t", map=lfp)
+        lines = ""
+        for line in p.stdout:
+            line = line.rstrip("\n")
+            if line.startswith("lines="):
+                lines = line.split("=")[1]
+                break
+        p.wait()
+        if p.returncode != 0 or lines == "":
+            grass.fatal(_("Cannot read lines from longest flow path info"))
+
+        lines = int(lines)
+        if lines == 0:
+            grass.fatal(_("Cannot create longest flow path vector"))
+        elif lines == 1:
+            success = True
+            break
+
+        p = grass.pipe_command("v.report", map=lfp, option="length", sort="asc")
+        for line in p.stdout:
+            line = line.rstrip("\n")
+            if line == "cat|value|length":
+                continue
+            cols = line.split("|")
+            firstcat = cols[0]
+            break
+        p.wait()
+        if p.returncode != 0:
+            grass.fatal(_("Cannot read report from longest flow path vector map"))
+
+        if grass.run_command("v.edit", map=lfp, tool="delete",
+                cats=firstcat) != 0:
+            grass.fatal(_("Cannot delete short segments from longest flow path"))
+
+    if success == False:
+        grass.fatal(_("Cannot simplify longest flow path"))
+
+    p = grass.pipe_command("v.report", map=lfp, option="length")
+    mincat = ""
+    for line in p.stdout:
+        line = line.rstrip("\n")
+        if line == "cat|value|length":
+            continue
+        cat = line.split("|")[0]
+        if mincat == "":
+            mincat = cat
+        maxcat = cat
+    p.wait()
+    if p.returncode != 0:
+        grass.fatal(_("Cannot read min/max categories from longest flow path vector map"))
+
+    mincat = int(mincat)
+    maxcat = int(maxcat)
+
+    if grass.run_command("v.edit", map=lfp, tool="catdel",
+            cats="%d-%d" % (mincat+1, maxcat), where="") != 0:
+        grass.fatal(_("Cannot delete categories from longest flow path vector map"))
+
+    p = grass.pipe_command("v.to.db", flags="p", map=lfp, option="start")
+    for line in p.stdout:
+        line = line.rstrip("\n")
+        if line == "cat|x|y|z":
+            continue
+        cols = line.split("|")
+        startx = cols[1]
+        starty = cols[2]
+    p.wait()
+    if p.returncode != 0:
+        grass.fatal(_("Cannot read start point of longest flow path"))
+
+    startx = float(startx)
+    starty = float(starty)
+
+    coords = outlet_coords.split(",")
+    outx = float(coords[0])
+    outy = float(coords[1])
+
+    if startx >= outx - 15.0 and startx <= outx + 15.0 and \
+       starty >= outy - 15.0 and starty <= outy + 15.0:
+        if grass.run_command("v.edit", map=lfp, tool="flip", where="") != 0:
+            grass.fatal(_("Cannot flip longest flow path"))
+
+def find_subbasin_outlets(lfp, outlets):
+    global overwrite
+
+    grass.message(_("===== Finding Subbasin Outlets ====="))
+
+    if skip_vector(outlets):
+        return
+
+    p = grass.pipe_command("v.db.select", flags="fc",
+            map=lfp, columns="cat")
+    for line in p.stdout:
+        cat = int(line.rstrip("\n"))
+        break
+    p.wait()
+    if p.returncode != 0:
+        grass.fatal(_("Cannot find subbasin outlets"))
+
+    p = grass.feed_command("v.segment", overwrite=overwrite,
+            input=lfp, output=outlets)
+    for i in range(1, 10):
+        p.stdin.write("P %d %d -%f%%\n" % (i, cat, i*10.0))
+    p.stdin.close()
+    p.wait()
+    if p.returncode != 0:
+        grass.fatal(_("Cannot find subbasin outlets"))
+
+def delineate_subbasins(outlets, drain, subbasin):
+    global overwrite
+
+    grass.message(_("===== Delineating Subbasins ====="))
+
+    p = grass.pipe_command("v.to.db", flags="p", map=outlets, option="coor")
+    i = 1
+    for line in p.stdout:
+        output = line.rstrip("\n").split("|")
+        if output[0] == "cat":
+            continue
+        name = "%s%d" % (subbasin, i)
+        if skip_raster(name):
+            continue
+
+        outlet_coords = "%s,%s" % (output[1], output[2])
+        if grass.run_command("r.water.outlet", overwrite=overwrite,
+                input=drain, output=name, coordinates=outlet_coords) != 0:
+            grass.fatal(_("Cannot delineate subbasins"))
+        i += 1
+    p.wait()
+    if p.returncode != 0:
+        grass.fatal(_("Cannot delineate subbasins"))
+
+def create_params_file(elev, prefix, basin, lfp, subbasin, coords, hacksorder,
+        params_file):
+    grass.message(_("===== Creating Parameters File ====="))
+
+    total_area = 0.0
+    p = grass.pipe_command("r.stats", flags="an", quiet=True, input=basin)
+    for line in p.stdout:
+        total_area = float(line.rstrip("\n").split(" ")[1])
+        break
+    p.wait()
+    if p.returncode != 0 or total_area == 0.0:
+        grass.fatal(_("Cannot calculate the watershed area"))
+
+    total_length = 0.0
+    p = grass.pipe_command("v.to.db", flags="p", quiet=True,
+            map=lfp, option="length")
+    for line in p.stdout:
+        total_length = float(line.rstrip("\n").split("|")[1])
+        break
+    p.wait()
+    if p.returncode != 0 or total_length == 0.0:
+        grass.fatal(_("Cannot calculate the main stream length"))
+
+    if not overwrite and os.path.exists(params_file):
+        grass.fatal(_("%s already exists.") % params_file)
+
+    if hacksorder == "":
+        order = ""
+    else:
+        order = " hacksorder=%s" % hacksorder
+
+    f = open(params_file, "w")
+    f.write("""# Generated by %s elevation=%s prefix=%s coordinates=%s%s
+# Subcatchment name
+%s
+
+################################################################################
+# A [m^2]: Subcatchment area
+%f
+
+################################################################################
+# qs0 [m/h]: Initial subsurface flow per unit area
+1
+
+# lnTe [ln(m^2/h)]: Areal average of ln(T0)
+1
+
+# m [m]: Scaling parameter
+0.1
+
+# Sr0 [m]: Initial root zone storage deficit
+0.005
+
+# Srmax [m]: Maximum root zone storage deficit
+0.01
+
+# td [h]: Unsaturated zone time delay per unit storage deficit if greater than 0
+#  OR
+# -alpha: Effective vertical hydraulic gradient if not greater than 0.
+1
+
+# vch [m/h]: Main channel routing velocity
+100
+
+# vr [m/h]: Internal subcatchment routing velocity
+100
+
+################################################################################
+# infex: Calculate infiltration excess if not zero (integer)
+0
+
+# K0 [m/h]: Surface hydraulic conductivity
+0.1
+
+# psi [m]: Wetting front suction
+0.1
+
+# dtheta: Water content change across the wetting front
+0.1
+
+################################################################################
+# d [m]: Distance from the catchment outlet
+#               The first value should be the main stream distance from
+#               the subcatchment outlet to the catchment outlet.
+# Ad_r:  Cumulative area ratio of subcatchment (0.0 to 1.0)
+#               The first and last values should be 0 and 1, respectively.
+
+# d Ad_r
+""" % (os.path.basename(sys.argv[0]), elev, prefix, coords, order,
+        prefix.replace("_", " ").rstrip().title(), total_area))
+
+    f.write("0 0\n")
+    for i in range(1, 10):
+        area = 0.0
+        p = grass.pipe_command("r.stats", flags="an", quiet=True,
+                input="%s%d" % (subbasin, i))
+        for line in p.stdout:
+            area = float(line.rstrip("\n").split(" ")[1])
+            break
+        p.wait()
+        if p.returncode != 0:
+            return 1
+        if area == 0.0:
+            grass.fatal(_("Cannot calculate the area of subbasin%d") % i)
+        f.write("%f %f\n" % (0.1*i*total_length, (total_area-area)/total_area))
+    f.write("%f 1\n" % total_length)
+    f.close()
+
+def calculate_topidx(elev, topidx):
+    global overwrite
+
+    grass.message(_("===== Calculating Topographic Index ====="))
+
+    if skip_raster(topidx):
+        return
+
+    if grass.run_command("r.topidx", overwrite=overwrite,
+            input=elev, output=topidx) != 0:
+        grass.fatal(_("Cannot calculate the topographic index"))
+
+def create_topidxstats_file(topidx, topidxstats):
+    global overwrite
+
+    grass.message(_("===== Creating Topographic Index Statistics File ====="))
+
+    if grass.run_command("r.topmodel", flags="p", overwrite=overwrite,
+            topidx=topidx, outtopidxstats=topidxstats) != 0:
+        grass.fatal(_("Cannot create topographic index statistics file"))
+
+def raster_exists(map):
+    global mapset
+    return grass.find_file(map, element="cell", mapset=mapset)["file"] != ""
+
+def skip_raster(map):
+    global skip
+    return skip and raster_exists(map)
+
+def vector_exists(map):
+    global mapset
+    return grass.find_file(map, element="vector", mapset=mapset)["file"] != ""
+
+def skip_vector(map):
+    global skip
+    return skip and vector_exists(map)
+
+if __name__ == "__main__":
+    options, flags = grass.parser()
+    sys.exit(main())

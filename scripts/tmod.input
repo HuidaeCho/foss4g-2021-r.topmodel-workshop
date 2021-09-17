@@ -1,0 +1,206 @@
+#!/usr/bin/env python
+# GRASS GIS module for creating r.topmodel input file
+#
+# AUTHOR:       Huidae Cho
+# COPYRIGHT:    (C) 2015 by Huidae Cho
+# LICENSE:      GNU Affero General Public License v3
+
+#%module
+#% description: Creates an r.topmodel input file from NCDC data.
+#% keywords: hydrology
+#% keywords: watershed
+#% overwrite: yes
+#%end
+#%option
+#% key: prefix
+#% type: string
+#% description: Input/output map prefix
+#% required: yes
+#%end
+#%option
+#% key: startdate
+#% type: string
+#% required: yes
+#% description: Start date in YYYY-MM-DD format
+#%end
+#%option
+#% key: enddate
+#% type: string
+#% required: yes
+#% description: End date in YYYY-MM-DD format
+#%end
+#%option G_OPT_F_OUTPUT
+#% label: Name for output file
+#% required: yes
+#%end
+
+import sys
+import os
+import calendar
+import grass.script as grass
+from ncdc import fetch_daily_data
+
+def main():
+    global overwrite, mapset
+
+    prefix = options["prefix"]
+    startdate = options["startdate"]
+    enddate = options["enddate"]
+    output = options["output"]
+    overwrite = grass.overwrite()
+    mapset = grass.gisenv()["MAPSET"]
+
+    # input maps
+    basin = prefix + "basin"
+    prcp_voronoi = prefix + "prcp_voronoi"
+    evap_voronoi = prefix + "evap_voronoi"
+
+    set_region(basin)
+    remove_mask()
+    prcp = calculate_weather_data("PRCP", prcp_voronoi, startdate, enddate)
+    evap = calculate_weather_data("EVAP", evap_voronoi, startdate, enddate)
+    create_input_file(prefix, startdate, enddate, output, prcp, evap)
+
+def set_region(basin):
+    grass.message(_("===== Setting Region ====="))
+    if grass.run_command("g.region", rast=basin) != 0:
+        grass.fatal(_("Cannot set the computational region"))
+
+def calculate_weather_data(datatypeid, voronoi, startdate, enddate):
+    global overwrite
+
+    grass.message(_("===== Calculating %s Data =====") % datatypeid)
+
+    startyear = int(startdate[0:4])
+    startmonth = int(startdate[5:7])
+    startday = int(startdate[8:10])
+    endyear = int(enddate[0:4])
+    endmonth = int(enddate[5:7])
+    endday = int(enddate[8:10])
+
+    first = True
+    ret = []
+
+    p = grass.pipe_command("v.report", map=voronoi, option="area",
+            units="percent")
+    for line in p.stdout:
+        output = line.rstrip("\n").split("|")
+        if output[0] == "cat":
+            continue
+
+        stationid = output[1]
+        ratio = float(output[2]) * 0.01
+
+        i = 0
+
+        for year in range(startyear, endyear+1):
+            if year == startyear:
+                start_month = startmonth
+                start_day = startday
+            else:
+                start_month = 1
+                start_day = 1
+
+            if year == endyear:
+                end_month = endmonth
+                end_day = endday
+            else:
+                end_month = 12
+                end_day = 31
+
+            start_date = "%04d-%02d-%02d" % (year, start_month, start_day)
+            end_date = "%04d-%02d-%02d" % (year, end_month, end_day)
+
+            data = fetch_daily_data(datatypeid, stationid, start_date, end_date)
+
+            month = start_month
+            day = start_day
+
+            for rec in data:
+                y = int(rec["date"][0:4])
+                m = int(rec["date"][5:7])
+                d = int(rec["date"][8:10])
+                v = float(rec["value"])
+
+                for month in range(month, m):
+                    ndays = calendar.monthrange(year, month)[1]
+                    for day in range(day, ndays+1):
+                        if first:
+                            ret.append(0.0)
+                        i += 1
+                    day = 1
+                month = m
+
+                for day in range(day, d):
+                    if first:
+                        ret.append(0.0)
+                    i += 1
+                day = d
+
+                value = v * ratio
+
+                if first:
+                    ret.append(value)
+                else:
+                    ret[i] += value
+
+                if day < calendar.monthrange(year, month)[1]:
+                    day += 1
+                else:
+                    month += 1
+                    day = 1
+                i += 1
+
+            if month <= end_month:
+                for month in range(month, end_month):
+                    ndays = calendar.monthrange(year, month)[1]
+                    for day in range(day, ndays+1):
+                        if first:
+                            ret.append(0.0)
+                        i += 1
+                    day = 1
+                month = end_month
+
+                for day in range(day, end_day+1):
+                    if first:
+                        ret.append(0.0)
+                    i += 1
+
+        first = False
+    p.wait()
+    if p.returncode != 0:
+        grass.fatal(_("Cannot calculate %s data") % datatypeid)
+
+    return ret
+
+def create_input_file(prefix, startdate, enddate, output, prcp, evap):
+    data = zip(prcp, evap)
+
+    f = open(output, "w")
+    f.write("""# Generated by %s prefix=%s startdate=%s enddate=%s output=%s
+# dt [h]: Time step
+24
+
+################################################################################
+# R [m/dt]:  Rainfall
+# Ep [m/dt]: Potential evapotranspiration
+ 
+# R Ep
+""" % (os.path.basename(sys.argv[0]), prefix, startdate, enddate, output))
+
+    for rec in data:
+        # 10^-1 mm/d => m/d
+        f.write("%f %f\n" % (rec[0] * 0.0001, rec[1] * 0.0001))
+    f.close()
+
+def remove_mask():
+    if raster_exists("MASK") and grass.run_command("r.mask", flags="r") != 0:
+        grass.fatal(_("Cannot remove mask"))
+
+def raster_exists(map):
+    global mapset
+    return grass.find_file(map, element="cell", mapset=mapset)["file"] != ""
+
+if __name__ == "__main__":
+    options, flags = grass.parser()
+    sys.exit(main())

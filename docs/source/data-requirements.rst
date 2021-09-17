@@ -15,4 +15,4 @@ Creating a topographic index statistics file requires a topographic index raster
 r.topidx data
 -------------
 
-`r.topidx <https://grass.osgeo.org/grass80/manuals/r.topidx.html>`_ requires an elevation raster map.
+r.topidx requires an elevation raster map.

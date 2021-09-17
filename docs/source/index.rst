@@ -1,3 +1,10 @@
+.. toctree::
+   :caption: Table of contents
+   :hidden:
+
+   introduction
+   data-requirements
+
 Physically-based hydrologic modeling using GRASS GIS r.topmodel
 ===============================================================
 
@@ -18,14 +25,6 @@ The Topography Model (TOPMODEL) is "a set of conceptual tools that can be used t
 Cho (2000) reimplemented his FORTRAN code as a GRASS GIS module in C, based on which the R package (Buytaert 2009) and SAGA GIS module (Conrad 2003) have been developed (Cho et al. 2019).
 Cho (2020) developed r.accumulate, an efficient GRASS GIS hydrologic module for calculating one of its parameters.
 We will use these and other modules to create a r.topmodel model and use R scripts including Isolated-Speciation-based Particle Swarm Optimization (ISPSO) (Cho et al. 2011), a particle swarm optimization algorithm in R, to calibrate its parameters.
-
-Table of contents
------------------
-
-.. toctree::
-
-   introduction
-   data-requirements
 
 Authors and affiliations
 ------------------------
@@ -71,10 +70,3 @@ Cho, H., Kim, D., Olivera, F., Guikema, S. D., 2011. Enhanced Speciation in Part
 Cho, H., Park, J., Kim, D., 2019. Evaluation of Four GLUE Likelihood Measures and Behavior of Large Parameter Samples in ISPSO-GLUE for TOPMODEL. Water 11 (3), 447. :doi:`10.3390/w11030447`.
 
 Conrad, O., 2003. SAGA-GIS Module Library Documentation (v2.1.3) Module TOPMODEL. http://www.saga-gis.org/saga_module_doc/2.1.3/sim_hydrology_2.html, accessed on November 9, 2015.
-
-Indices and tables
-------------------
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
