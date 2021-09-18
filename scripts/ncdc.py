@@ -61,7 +61,8 @@ def fetch_all(request):
     offset += limit
 
     while offset <= count:
-        sys.stderr.write("Fetching %d-%d of %d...\n" % (offset, offset+limit-1, count))
+        last = min(offset + limit - 1, count)
+        sys.stderr.write("Fetching %d-%d of %d...\n" % (offset, last, count))
         data = fetch_once(request, limit, offset)
 
         if not "results" in data:

@@ -6,17 +6,16 @@ ncdc_prcp_stations = ncdc.fetch_all("stations?datatypeid=PRCP")
 
 with sqlite3.connect("data.db") as con:
     con.execute("""CREATE TABLE ncdc_prcp_stations (
-            cat INTEGER PRIMARY KEY,
-            id VARCHAR(20),
-            name VARCHAR(100),
-            latitude REAL,
-            longitude REAL,
-            elevation REAL,
-            elevationUnit VARCHAR(10),
-            datacoverage REAL,
-            mindate VARCHAR(10),
-            maxdate VARCHAR(10)
-    )""")
+                        cat INTEGER PRIMARY KEY,
+                        id VARCHAR(20),
+                        name VARCHAR(100),
+                        latitude REAL,
+                        longitude REAL,
+                        elevation REAL,
+                        elevationUnit VARCHAR(10),
+                        datacoverage REAL,
+                        mindate VARCHAR(10),
+                        maxdate VARCHAR(10))""")
     con.commit()
 
     cat = 0
@@ -26,19 +25,12 @@ with sqlite3.connect("data.db") as con:
         name = station.get("name")
         latitude = station.get("latitude")
         longitude = station.get("longitude")
-        elevation = station.get("elevation", 0)
+        elevation = station.get("elevation")
         elevationUnit = station.get("elevationUnit")
         datacoverage = station.get("datacoverage")
         mindate = station.get("mindate")
         maxdate = station.get("maxdate")
-        con.execute(f"""INSERT INTO ncdc_prcp_stations
-                        VALUES ({cat},
-                                '{id_}',
-                                '{name}',
-                                {latitude},
-                                {longitude},
-                                {elevation},
-                                '{elevationUnit}',
-                                {datacoverage},
-                                '{mindate}',
-                                '{maxdate}')""")
+        con.execute("""INSERT INTO ncdc_prcp_stations
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (cat, id_, name, latitude, longitude, elevation,
+                     elevationUnit, datacoverage, mindate, maxdate))
