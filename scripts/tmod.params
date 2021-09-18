@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # GRASS GIS module for creating r.topmodel parameters file
 #
 # AUTHOR:       Huidae Cho
