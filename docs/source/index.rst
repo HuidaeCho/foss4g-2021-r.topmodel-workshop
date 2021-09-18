@@ -4,6 +4,7 @@
 
    introduction
    data-requirements
+   watershed-delineation
 
 Physically-based hydrologic modeling using GRASS GIS r.topmodel
 ===============================================================
