@@ -27,11 +27,11 @@ The following digital elevation model (DEM) products cover most of the world:
 * `Shuttle Radar Topography Mission (SRTM) <https://www2.jpl.nasa.gov/srtm/>`_
 * `Advanced Land Observing Satellite (ALOS) World 3D - 30m <https://www.eorc.jaxa.jp/ALOS/en/aw3d30/>`_
 
-All these products are available free of charge and in 1°x1° tiles at a 1-arcsecond (approximately 30-m) resolution.
+All these products are available free of charge in 1°x1° tiles at a 1-arcsecond (approximately 30-m) resolution.
 
 ASTER and SRTM data can be downloaded from `EarthExplorer <https://earthexplorer.usgs.gov/>`_.
 
 Weather forcing data
 ^^^^^^^^^^^^^^^^^^^^
 
-Weather 
+The National Centers for Environmental Information (`NCEI <https://www.ncei.noaa.gov/>`_) provides an application programming interface (API) for downloading weather data from `the Climate Data Online (CDO) web services <https://www.ncdc.noaa.gov/cdo-web/webservices/v2>`_.

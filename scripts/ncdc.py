@@ -13,7 +13,7 @@ import time
 def fetch_once(request, limit, offset):
     # NCDC API tokens
     tokens = os.environ.get("NCDC_API_TOKENS").split(":")
-    api_url = "http://www.ncdc.noaa.gov/cdo-web/api/v2"
+    api_url = "https://www.ncdc.noaa.gov/cdo-web/api/v2"
 
     if "?" in request:
         limit_param = "&limit"

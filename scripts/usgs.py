@@ -9,7 +9,7 @@ import sys
 import requests
 
 def fetch_daily_discharge(siteno, begindate, enddate):
-    daily_discharge_url = ("http://waterdata.usgs.gov/nwis/dv?cb_00060=on&" +
+    daily_discharge_url = ("https://waterdata.usgs.gov/nwis/dv?cb_00060=on&" +
         "format=rdb&site_no=%s&referred_module=sw&period=&" +
         "begin_date=%s&end_date=%s")
 
