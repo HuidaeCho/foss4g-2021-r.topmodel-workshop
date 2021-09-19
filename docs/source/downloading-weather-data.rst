@@ -109,3 +109,33 @@ The above steps can be done using `fetch_ncdc_evap_stations.py <https://github.c
 Creating weather station vectors
 --------------------------------
 
+The coordinates of NCDC weather stations are in latitude and longitude, so we need to create a new latlong location in `EPSG:4326 <https://epsg.io/4326>`_.
+From the command line,
+
+.. code-block:: bash
+
+    mkdir grassdata
+    grass -c epsg:4326 grassdata/epsg4326
+
+Import both `ncdc_prcp_stations` and `ncdc_evap_stations`.
+If you are on Windows, use `^` instead of `\\` for line continuation.
+
+.. code-block:: bash
+
+    v.in.db -t \
+        table=ncdc_prcp_stations \
+        database=data.db \
+        x=longitude \
+        y=latitude \
+        z=elevation \
+        key=cat \
+        output=ncdc_prcp_stations
+
+    v.in.db -t \
+        table=ncdc_evap_stations \
+        database=data.db \
+        x=longitude \
+        y=latitude \
+        z=elevation \
+        key=cat \
+        output=ncdc_evap_stations
