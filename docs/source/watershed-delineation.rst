@@ -12,7 +12,7 @@ Go to `StreamStats <https://streamstats.usgs.gov/ss/>`_ and search for ``0233160
    :width: 75%
 
 Select "Georgia" and delineate a watershed at just the downstream cell of the gauge.
-Optionally, download the watershed Shapefile.
+Optionally, download `the watershed Shapefile <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/outputs/streamstats_02331600_watershed.zip>`_.
 
 .. image:: streamstats-02331600-watershed.png
    :align: center
@@ -35,7 +35,7 @@ Click "Data Sets" and search for "SRTM 1 arc-second".
    :align: center
    :width: 75%
 
-Click "Results" and download the file.
+Click "Results" and download `the GeoTIFF file <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/outputs/n34_w084_1arc_v3.tif>`_.
 
 .. image:: earthexplorer-results.png
    :align: center
