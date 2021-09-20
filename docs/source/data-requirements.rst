@@ -23,8 +23,8 @@ Digital elevation models
 
 The following digital elevation model (DEM) products cover most of the world:
 
-* `Advanced Spaceborne Thermal Emission and Reflection Radiometer (ASTER) Global Digital Elevation Model <https://asterweb.jpl.nasa.gov/gdem.asp>`_
 * `Shuttle Radar Topography Mission (SRTM) <https://www2.jpl.nasa.gov/srtm/>`_
+* `Advanced Spaceborne Thermal Emission and Reflection Radiometer (ASTER) Global Digital Elevation Model <https://asterweb.jpl.nasa.gov/gdem.asp>`_
 * `Advanced Land Observing Satellite (ALOS) World 3D - 30m <https://www.eorc.jaxa.jp/ALOS/en/aw3d30/>`_
 
 All these products are available free of charge in 1°x1° tiles at a 1-arcsecond (approximately 30-m) resolution.

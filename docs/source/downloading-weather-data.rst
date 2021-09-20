@@ -118,24 +118,8 @@ From the command line,
     grass -c epsg:4326 grassdata/epsg4326
 
 Import both `ncdc_prcp_stations` and `ncdc_evap_stations`.
-If you are on Windows, use `^` instead of `\\` for line continuation.
 
 .. code-block:: bash
 
-    v.in.db -t \
-        table=ncdc_prcp_stations \
-        database=data.db \
-        x=longitude \
-        y=latitude \
-        z=elevation \
-        key=cat \
-        output=ncdc_prcp_stations
-
-    v.in.db -t \
-        table=ncdc_evap_stations \
-        database=data.db \
-        x=longitude \
-        y=latitude \
-        z=elevation \
-        key=cat \
-        output=ncdc_evap_stations
+    v.in.db -t table=ncdc_prcp_stations database=data.db x=longitude y=latitude z=elevation key=cat output=ncdc_prcp_stations
+    v.in.db -t table=ncdc_evap_stations database=data.db x=longitude y=latitude z=elevation key=cat output=ncdc_evap_stations

@@ -6,6 +6,7 @@
    data-requirements
    watershed-delineation
    downloading-weather-data
+   downloading-flow-data
 
 Physically-based hydrologic modeling using GRASS GIS r.topmodel
 ===============================================================
@@ -16,9 +17,9 @@ This workshop will introduce r.topmodel (Cho 2000), the GRASS GIS module for a p
 r.topmodel is a C implementation of the original FORTRAN code by Beven and tightly integrated with GRASS GIS.
 We will discuss step-by-step instructions for preparing input data for r.topmodel, running it, calibrating its model parameters, and, finally, post-processing the model outputs.
 
-.. image:: subbasins_for_r.topmodel.png
+.. image:: subbasins-for-r.topmodel.png
    :align: center
-   :width: 100%
+   :width: 75%
 
 Abstract
 --------
