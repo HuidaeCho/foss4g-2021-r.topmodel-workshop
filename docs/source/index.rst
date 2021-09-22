@@ -4,6 +4,7 @@
 
    introduction
    data-requirements
+   downloading-elevation-data
    watershed-delineation
    downloading-weather-data
    downloading-flow-data
