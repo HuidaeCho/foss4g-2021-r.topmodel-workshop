@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Python script for retreiving NCDC weather data
+# Python script for retrieving NCDC weather data
 #
 # AUTHOR:       Huidae Cho
 # COPYRIGHT:    (C) 2015 by Huidae Cho

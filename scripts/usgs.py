@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Python script for retreiving USGS streamflow data
+# Python script for retrieving USGS streamflow data
 #
 # AUTHOR:       Huidae Cho
 # COPYRIGHT:    (C) 2015 by Huidae Cho
@@ -8,12 +8,12 @@
 import sys
 import requests
 
-def fetch_daily_discharge(siteno, begindate, enddate):
+def fetch_daily_discharge(site_no, begin_date, end_date):
     daily_discharge_url = ("https://waterdata.usgs.gov/nwis/dv?cb_00060=on&" +
         "format=rdb&site_no=%s&referred_module=sw&period=&" +
         "begin_date=%s&end_date=%s")
 
-    request_url = daily_discharge_url % (siteno, begindate, enddate)
+    request_url = daily_discharge_url % (site_no, begin_date, end_date)
 
     ret = []
     i = 0
@@ -31,7 +31,7 @@ def fetch_daily_discharge(siteno, begindate, enddate):
 
 if __name__ == "__main__":
     if len(sys.argv) > 3:
-        siteno = sys.argv[1]
-        begindate = sys.argv[2]
-        enddate = sys.argv[3]
-        print(fetch_daily_discharge(siteno, begindate, enddate))
+        site_no = sys.argv[1]
+        begin_date = sys.argv[2]
+        end_date = sys.argv[3]
+        print(fetch_daily_discharge(site_no, begin_date, end_date))
