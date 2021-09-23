@@ -4,10 +4,10 @@
 
    introduction
    data-requirements
-   downloading-elevation-data
+   srtm-elevation-data
    watershed-delineation
-   downloading-weather-data
-   downloading-flow-data
+   ncdc-weather-data
+   usgs-streamflow-data
 
 Physically-based hydrologic modeling using GRASS GIS r.topmodel
 ===============================================================

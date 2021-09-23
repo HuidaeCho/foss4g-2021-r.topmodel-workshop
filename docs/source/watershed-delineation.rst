@@ -207,7 +207,7 @@ Extract this stream network.
    :width: 75%
 
 Let's set the computational region that is big enough to contain the watershed.
-A buffer of 9,000 ft is used.
+A buffer of 9,000 ft (100 times the 90-ft resolution) is used.
 
 .. code-block:: bash
 
@@ -237,7 +237,13 @@ The same command will calculate the flow accumulation and longest flow path as w
 
     g.extension extension=r.accumulate
     r.accumulate direction=fdir outlet=outlet subwatershed=watershed accumulation=facc longest_flow_path=lfp
-    # display watershed and lfp
+
+Convert the watershed raster to vector.
+
+.. code-block:: bash
+
+    r.to.vect input=watershed type=area output=watershed
+    # display watershed and lfp vectors
 
 .. image:: watershed-lfp.png
    :align: center

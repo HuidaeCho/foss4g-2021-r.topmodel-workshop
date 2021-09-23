@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
-import ncdc
+import os
 import json
 import sqlite3
 
-ncdc_evap_stations = ncdc.fetch_all("stations?datatypeid=EVAP")
-with open("ncdc_evap_stations.json", "w") as f:
-    json.dump(ncdc_evap_stations, f)
+import ncdc
+
+json_path = "ncdc_evap_stations.json"
+
+if os.path.isfile(json_path):
+    with open(json_path) as f:
+        ncdc_evap_stations = json.load(f)
+else:
+    ncdc_evap_stations = ncdc.fetch_all("stations?datatypeid=EVAP")
+    with open(json_path, "w") as f:
+        json.dump(ncdc_evap_stations, f)
 
 with sqlite3.connect("data.db") as con:
     con.execute("""CREATE TABLE ncdc_evap_stations (
