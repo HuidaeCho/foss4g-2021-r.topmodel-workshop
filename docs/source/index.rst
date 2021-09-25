@@ -3,9 +3,11 @@
    :hidden:
 
    introduction
-   data-requirements
+   requirements
    srtm-elevation-data
-   watershed-delineation
+   watershed
+   topographic-index
+   r.topmodel-parameters
    ncdc-weather-data
    usgs-streamflow-data
 
@@ -18,7 +20,7 @@ This workshop will introduce r.topmodel (Cho 2000), the GRASS GIS module for a p
 r.topmodel is a C implementation of the original FORTRAN code by Beven and tightly integrated with GRASS GIS.
 We will discuss step-by-step instructions for preparing input data for r.topmodel, running it, calibrating its model parameters, and, finally, post-processing the model outputs.
 
-.. image:: subbasins-for-r.topmodel.png
+.. image:: images/subbasins-for-r.topmodel.png
    :align: center
    :width: 75%
 
@@ -33,7 +35,7 @@ We will use these and other modules to create a r.topmodel model and use R scrip
 Authors and affiliations
 ------------------------
 
-.. image:: portrait.png
+.. image:: images/portrait.png
    :align: left
 
 Huidae Cho, University of North Georgia, United States

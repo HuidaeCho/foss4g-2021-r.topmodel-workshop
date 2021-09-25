@@ -50,7 +50,7 @@ These two scripts will create the ncdc_prcp_stations and ncdc_evap_stations tabl
                         mindate VARCHAR(10),
                         maxdate VARCHAR(10))
 
-Note that the mindate and maxdate columns are not necessarily for PRCP or EVAP data.
+The mindate and maxdate columns are not necessarily for PRCP or EVAP data.
 Instead, we need to use the minyear and maxyear columns in the ghcnd_inventory table.
 
 Creating weather station vectors
@@ -95,7 +95,7 @@ It took about 34 seconds on my i5 laptop.
 
     # display watershed, prcp_stations, and evap_stations
 
-.. image:: watershed-weather-stations.png
+.. image:: images/watershed-weather-stations.png
    :align: center
    :width: 75%
 
@@ -118,7 +118,7 @@ Clip the Voronoi vectors to the watershed.
     v.clip input=evap_stations_voronoi clip=watershed output=evap_stations_voronoi_watershed
     # display prcp_stations_voronoi_watershed
 
-.. image:: prcp-stations-voronoi-watershed.png
+.. image:: images/prcp-stations-voronoi-watershed.png
    :align: center
    :width: 75%
 

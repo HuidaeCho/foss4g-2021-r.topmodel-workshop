@@ -1,5 +1,5 @@
-Watershed delineation
-=====================
+Watershed
+=========
 
 Let's check the coordinate reference system (CRS) of the DEM.
 
@@ -47,14 +47,14 @@ Zoom to the area of the watershed using Ctrl + dragging and draw a bounding poly
 Refer to the Help tab.
 Click Query and search for "projected; nad83; us foot".
 
-.. image:: projpicker-watershed.png
+.. image:: images/projpicker-watershed.png
    :align: center
    :width: 75%
 
 Select the first CRS.
 We will use `EPSG:2240 <https://epsg.io/2240>`_.
 
-.. image:: projpicker-epsg2240.png
+.. image:: images/projpicker-epsg2240.png
    :align: center
    :width: 75%
 
@@ -73,7 +73,7 @@ Open a new terminal.
     g.region raster=n34_w084_1arc_v3
     # display n34_w084_1arc_v3
 
-.. image:: n34-w084-1arc-v3.png
+.. image:: images/n34-w084-1arc-v3.png
    :align: center
    :width: 75%
 
@@ -87,7 +87,7 @@ Use the latitude and longitude from above to create an outlet vector.
     m.proj -i coordinates=-83.622775,34.5407222 | v.in.ascii input=- output=outlet
     # display outlet
 
-.. image:: outlet.png
+.. image:: images/outlet.png
    :align: center
    :width: 75%
 
@@ -97,13 +97,13 @@ Downloading stream data for DEM burning
 Go to `the National Map Download Viewer <https://apps.nationalmap.gov/downloader/>`_, zoom to the watershed, and draw an extent polygon.
 Check Hydrography, National Hydrography Dataset (NHD), HU-4 Subregion, and Shapefile.
 
-.. image:: nationalmap-search.png
+.. image:: images/nationalmap-search.png
    :align: center
    :width: 75%
 
-Download `NHD_H_0313_HU4_Shape.zip <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/outputs/NHD_H_0313_HU4_Shape.zip>`_.
+Download `NHD_H_0313_HU4_Shape.zip <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/NHD_H_0313_HU4_Shape.zip>`_.
 
-.. image:: nationalmap-download.png
+.. image:: images/nationalmap-download.png
    :align: center
    :width: 75%
 
@@ -142,7 +142,7 @@ Change the layer number from 2 to 1.
     v.category input=outlet_snapped_end option=chlayer layer=2,1 output=outlet_snapped
     # display outlet_snapped
 
-.. image:: outlet-snapped.png
+.. image:: images/outlet-snapped.png
    :align: center
    :width: 75%
 
@@ -202,7 +202,7 @@ Extract this stream network.
     v.extract input=streams_net where=comp=17 output=streams_watershed
     # display streams_watershed
 
-.. image:: streams-watershed.png
+.. image:: images/streams-watershed.png
    :align: center
    :width: 75%
 
@@ -220,6 +220,7 @@ Clip the n34_w084_1arc_v3 raster to the computational region.
     r.mapcalc expression=dem=n34_w084_1arc_v3
 
 Burn the stream network into the DEM and calculate flow directions.
+Unlike some other flow direction tools, r.watershed does not require sinks to be filled because it uses a least-cost algorithm.
 
 .. code-block:: bash
 
@@ -245,6 +246,19 @@ Convert the watershed raster to vector.
     r.to.vect input=watershed type=area output=watershed
     # display watershed and lfp vectors
 
-.. image:: watershed-lfp.png
+.. image:: images/watershed-lfp.png
+   :align: center
+   :width: 75%
+
+Import the watershed from StreamStats and compare both.
+
+.. code-block:: bash
+
+    unzip streamstats_02331600_watershed.zip
+    v.import input=layers/globalwatershed.shp output=watershed_streamstats
+    v.overlay ainput=watershed binput=watershed_streamstats operator=xor output=watershed_diff
+    # display watershed_diff
+
+.. image:: images/watershed-diff.png
    :align: center
    :width: 75%

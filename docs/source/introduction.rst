@@ -35,7 +35,7 @@ Total flow consists of direct runoff from saturated areas, return flow from satu
 r.topmodel and r.topidx
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Cho (2000) rewrote TMOD9502.FOR and GRIDATB.FOR, the FORTRAN 77 version of TOPMODEL and the topographic index calculator by Beven, in C and integrated them with GRASS GIS as the `r.topmodel <https://grass.osgeo.org/grass80/manuals/r.topmodel.html>`_ and `r.topidx <https://grass.osgeo.org/grass80/manuals/r.topidx.html>`_ modules, respectively.
+Cho (2000) rewrote TMOD9502.FOR and GRIDATB.FOR, the FORTRAN 77 version of TOPMODEL and the topographic index calculator by Beven, in C and integrated them with GRASS GIS as the `r.topmodel <https://grass.osgeo.org/grass78/manuals/r.topmodel.html>`_ and `r.topidx <https://grass.osgeo.org/grass78/manuals/r.topidx.html>`_ modules, respectively.
 Both modules are included in the standard GRASS GIS installation.
 
 We will use these GRASS modules for today's workshop.
@@ -53,7 +53,7 @@ Finding minima in the Rastrigin function
 .. math::
    F(\vec{x})=\sum_{i=1}^D\left[x_i^2-10\cos(2\pi x_i)+10\right]
 
-.. image:: rastrigin.gif
+.. image:: images/rastrigin.gif
    :align: center
 
 References
