@@ -8,6 +8,8 @@
    watershed
    topographic-index
    r.topmodel-parameters
+   r.topmodel-topidxstats
+   r.topmodel-input
    ncdc-weather-data
    usgs-streamflow-data
 
