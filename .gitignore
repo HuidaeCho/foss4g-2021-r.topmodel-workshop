@@ -1,0 +1,7 @@
+data/NHD_H_0313_HU4_Shape.zip
+data/grassdata/
+data/grassdata.zip
+.R*
+__pycache__/
+docs/build/
+docs/publish.sh
