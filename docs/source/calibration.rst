@@ -25,6 +25,8 @@ Extract the first 2,191 records from input_evap.txt, input_pet.txt, and obs.txt.
     head -2 obs.txt > obs_c.txt
     tail +3 obs.txt | sed '2191q' >> obs_c.txt
 
+We will use `input_c_evap.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/input_c_evap.txt>`_, `input_c_pet.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/input_c_pet.txt>`_, and `obs_c.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/obs_c.txt>`_ for calibration.
+
 For validation, we will skip to January 1, 2015.
 
 .. code-block:: bash
@@ -44,10 +46,12 @@ Skip the first 1,826 records from input_evap.txt, input_pet.txt, and obs.txt.
     head -2 obs.txt > obs_v.txt
     tail +1829 obs.txt >> obs_v.txt
 
+We will use `input_v_evap.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/input_v_evap.txt>`_, `input_v_pet.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/input_v_pet.txt>`_, and `obs_v.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/obs_v.txt>`_ for validation.
+
 Configuration
 -------------
 
-Open config.R.
+Open `config.R <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/config.R>`_.
 
 .. code-block:: R
 
@@ -96,11 +100,12 @@ This normalized search space is expanded to the r.topmodel parameter ranges line
 Running calibration
 -------------------
 
-Create or empty the sim directory and run doit.R.
-For this workshop, we use the Nash-Sutcliffe coefficient as the objective function, but you can change it to another one in config.R.
+Create or empty the sim directory, copy params_init.txt to `params.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/params.txt>`_, and run doit.R.
+For this workshop, we use the Nash-Sutcliffe efficiency (NSE) coefficient as the objective function, but you can change it to another one in config.R.
 
 .. code-block:: bash
 
+    cp params_init.txt params.txt
     mkdir sim
     # or rm sim/*
     ../scripts/doit.R
@@ -119,7 +124,7 @@ In a separate R session, inspect the declining pattern of the objective function
    :align: center
    :width: 75%
 
-It took me about 2 minutes.
+It took me about 2 minutes to populate `the sim directory <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/sim>`_.
 
 What is your best NSE ``1-min(obj)``?
 I got 0.8035311.
@@ -141,6 +146,8 @@ Let's validate our result.
     sim_c <- run_rtopmodel_x(best_x, path_c)
 
     calc_nse(obs_c, sim_c, skip_c)
+
+This step will create the final `output_c <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/output_c>`_.
 
 Inspecting calibration result
 -----------------------------

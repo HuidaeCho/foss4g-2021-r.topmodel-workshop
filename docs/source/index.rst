@@ -4,6 +4,7 @@
 
    introduction
    requirements
+   data-directory
    srtm-elevation-data
    watershed
    topographic-index

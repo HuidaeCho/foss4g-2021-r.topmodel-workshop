@@ -1,6 +1,7 @@
 data/NHD_H_0313_HU4_Shape.zip
 data/grassdata/
 data/grassdata.zip
+*.swp
 .R*
 __pycache__/
 docs/build/

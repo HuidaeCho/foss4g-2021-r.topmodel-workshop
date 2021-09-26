@@ -8,7 +8,7 @@ The following command calculates statistics about topographic indices in the top
 
     r.topmodel -p topidx=topidx ntopidxclasses=30 outtopidxstats=topidxstats.txt
 
-This is my output:
+This is my `topidxstats.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/topidxstats.txt>`_.
 
 .. code-block::
 

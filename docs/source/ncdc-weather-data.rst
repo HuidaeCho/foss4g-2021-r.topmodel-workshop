@@ -5,7 +5,7 @@ Fetching information about weather stations
 -------------------------------------------
 
 Download the Global Historical Climatology Network daily (GHCNd) inventory data using `fetch_ghcnd_inventory.py <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/blob/master/scripts/fetch_ghcnd_inventory.py>`_.
-This script will create the ghcnd_inventory table in data.db:
+This script will download `ghcnd-inventory.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/ghcnd-inventory.txt>`_ and create the ghcnd_inventory table in `data.db <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/data.db>`_.
 
 .. code-block:: sql
 
@@ -22,7 +22,8 @@ We will use this data to check data availability for a certain period of time fo
 We need datatypeids of PRCP (precipitation) and EVAP (evaporation).
 
 Using `fetch_ncdc_prcp_stations.py <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/blob/master/scripts/fetch_ncdc_prcp_stations.py>`_ and `fetch_ncdc_evap_stations.py <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/blob/master/scripts/fetch_ncdc_evap_stations.py>`_, fetch information about PRCP and EVAP stations from the CDO database.
-These two scripts will create the ncdc_prcp_stations and ncdc_evap_stations tables:
+These two scripts will create `ncdc_prcp_stations.json <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/ncdc_prcp_stations.json>`_ and `ncdc_evap_stations.json <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/ncdc_evap_stations.json>`_.
+It will also create the ncdc_prcp_stations and ncdc_evap_stations tables in data.db.
 
 .. code-block:: sql
 
@@ -125,7 +126,7 @@ Clip the Voronoi vectors to the watershed.
 Downloading weather data
 ------------------------
 
-The following command will create an input_evap.txt file that can directly be passed to ``r.topmodel input=``.
+The following command will create `input_evap.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/input_evap.txt>`_ that can directly be passed to ``r.topmodel input=``.
 
 .. code-block:: bash
 

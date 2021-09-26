@@ -330,7 +330,7 @@ Prepend ``0.0 0.0`` and append ``66110.118521 1.0`` to complete the last section
 Our parameters file
 -------------------
 
-This is my params_init.txt.
+This is my `params_init.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/params_init.txt>`_.
 
 .. code-block::
 

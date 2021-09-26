@@ -77,6 +77,20 @@ Open a new terminal.
    :align: center
    :width: 75%
 
+Prepopulated location
+^^^^^^^^^^^^^^^^^^^^^
+
+If you face any issues with this step, download and extract `grassdata.zip <https://workshop.isnew.info/foss4g-2021-r.topmodel/data/grassdata.zip>`_.
+
+.. code-block:: bash
+
+    curl -o grassdata.zip https://workshop.isnew.info/foss4g-2021-r.topmodel/data/grassdata.zip
+    unzip grassdata.zip
+    grass grassdata/epsg2240
+    g.gui
+    g.region raster=n34_w084_1arc_v3
+    # display n34_w084_1arc_v3
+
 Creating the outlet
 -------------------
 
@@ -110,6 +124,8 @@ Download `NHD_H_0313_HU4_Shape.zip <https://workshop.isnew.info/foss4g-2021-r.to
 .. code-block:: bash
 
     curl -o NHD_H_0313_HU4_Shape.zip https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/NHD/HU4/HighResolution/Shape/NHD_H_0313_HU4_Shape.zip
+    # or if it fails,
+    # curl -o NHD_H_0313_HU4_Shape.zip https://workshop.isnew.info/foss4g-2021-r.topmodel/data/NHD_H_0313_HU4_Shape.zip
 
 Burning the DEM
 ---------------
