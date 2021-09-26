@@ -10,45 +10,45 @@ USGS 02331600 Chattahoochee River near Cornelia, GA
 #            "The first streamflow input is assumed to represent
 #             only the subsurface flow contribution in the watershed."
 #                                                        - Liaw (1988)
-0.000075
+7.436975e-05
 
 # lnTe [ln(m^2/h)]: Areal average of ln(T0)
-4
+0.848840500000001
 
 # m [m]: Scaling parameter
-0.0125
+0.2313000253
 
 # Sr0 [m]: Initial root zone storage deficit
-0.0025
+0.001045705
 
 # Srmax [m]: Maximum root zone storage deficit
-0.04
+0.0799903025
 
 # td [h]: Unsaturated zone time delay per unit storage deficit if greater than 0
 #  OR
 # -alpha: Effective vertical hydraulic gradient if not greater than 0.
 #
 # For example, -10 means alpha=10.
-20
+3.84970857988
 
 # vch [m/h]: Main channel routing velocity
 1000
 
 # vr [m/h]: Internal subwatershed routing velocity
-1000
+624.14981
 
 ################################################################################
 # infex: Calculate infiltration excess if not zero (integer)
 1
 
 # K0 [m/h]: Surface hydraulic conductivity
-2
+0.10963950285
 
 # psi [m]: Wetting front suction
-0.1
+0.275651393
 
 # dtheta: Water content change across the wetting front
-0.1
+0.416437607
 
 ################################################################################
 # d [m]: Distance from the watershed outlet

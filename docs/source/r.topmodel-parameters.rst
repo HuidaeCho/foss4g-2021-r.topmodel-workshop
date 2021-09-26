@@ -147,7 +147,7 @@ Parameter ranges
      - 0.001
      - 40
    * - vch
-     - Main channel routing velocity in m/h
+     - Main channel routing velocity in m/h; not to be calibrated
      - 50
      - 2000
    * - vr
@@ -329,6 +329,8 @@ Prepend ``0.0 0.0`` and append ``66110.118521 1.0`` to complete the last section
 
 Our parameters file
 -------------------
+
+This is my params_init.txt.
 
 .. code-block::
 

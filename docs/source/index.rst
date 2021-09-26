@@ -11,7 +11,10 @@
    r.topmodel-topidxstats
    r.topmodel-input
    ncdc-weather-data
+   usgs-potential-evapotranspiration-data
    usgs-streamflow-data
+   calibration
+   validation
 
 Physically-based hydrologic modeling using GRASS GIS r.topmodel
 ===============================================================

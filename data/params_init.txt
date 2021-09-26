@@ -1,0 +1,71 @@
+# Subwatershed name
+USGS 02331600 Chattahoochee River near Cornelia, GA
+
+################################################################################
+# A [m^2]: Total subwatershed area
+820402112.739749
+
+################################################################################
+# qs0 [m/h]: Initial subsurface flow per unit area
+#            "The first streamflow input is assumed to represent
+#             only the subsurface flow contribution in the watershed."
+#                                                        - Liaw (1988)
+0.000075
+
+# lnTe [ln(m^2/h)]: Areal average of ln(T0)
+4
+
+# m [m]: Scaling parameter
+0.0125
+
+# Sr0 [m]: Initial root zone storage deficit
+0.0025
+
+# Srmax [m]: Maximum root zone storage deficit
+0.04
+
+# td [h]: Unsaturated zone time delay per unit storage deficit if greater than 0
+#  OR
+# -alpha: Effective vertical hydraulic gradient if not greater than 0.
+#
+# For example, -10 means alpha=10.
+20
+
+# vch [m/h]: Main channel routing velocity
+1000
+
+# vr [m/h]: Internal subwatershed routing velocity
+1000
+
+################################################################################
+# infex: Calculate infiltration excess if not zero (integer)
+1
+
+# K0 [m/h]: Surface hydraulic conductivity
+2
+
+# psi [m]: Wetting front suction
+0.1
+
+# dtheta: Water content change across the wetting front
+0.1
+
+################################################################################
+# d [m]: Distance from the watershed outlet
+#           The first value should be the mainstream distance from
+#           the subwatershed outlet to the watershed outlet.
+# Ad_r:  Cumulative area ratio of subwatershed (0.0 to 1.0)
+#           The first and last values should be 0 and 1, respectively.
+
+#   d  Ad_r
+0.0             0.0
+6611.0118521    0.508024259829577
+13222.0237042   0.645446558467323
+19833.0355563   0.710716647457819
+26444.0474084   0.822589604549663
+33055.0592605   0.867452340015493
+39666.0711126   0.892391407032328
+46277.0829647   0.934296294896745
+52888.0948168   0.976866249740208
+59499.1066689   0.986551287622574
+66110.118521    1.0

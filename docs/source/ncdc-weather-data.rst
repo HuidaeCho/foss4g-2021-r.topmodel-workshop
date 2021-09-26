@@ -125,6 +125,8 @@ Clip the Voronoi vectors to the watershed.
 Downloading weather data
 ------------------------
 
+The following command will create an input_evap.txt file that can directly be passed to ``r.topmodel input=``.
+
 .. code-block:: bash
 
-    tmod.ncdc prcp_voronoi=prcp_stations_voronoi_watershed evap_voronoi=evap_stations_voronoi_watershed start_date=2010-01-01 end_date=2020-12-31 output=input.txt
+    tmod.ncdc prcp_voronoi=prcp_stations_voronoi_watershed evap_voronoi=evap_stations_voronoi_watershed start_date=2010-01-01 end_date=2020-12-31 output=input_evap.txt
