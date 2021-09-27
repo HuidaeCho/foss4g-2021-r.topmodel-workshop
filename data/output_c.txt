@@ -1,5 +1,5 @@
 # r.topmodel output file for USGS 02331600 Chattahoochee River near Cornelia, GA
-# Run time: 2021-09-26 15:37:36
+# Run time: 2021-09-27 10:20:28
 #
 # Qt_peak [m^3/timestep]:  Peak total flow
 # tt_peak [timestep]:      Peak time for total flow

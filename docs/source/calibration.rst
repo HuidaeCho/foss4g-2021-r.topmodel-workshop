@@ -144,6 +144,7 @@ Let's validate our result.
 
     obs_c <- read.table("obs_c.txt")[[1]]
     sim_c <- run_rtopmodel_x(best_x, path_c)
+    write.table(sim_c, "sim_c.txt", row.names=FALSE, col.names=FALSE)
 
     calc_nse(obs_c, sim_c, skip_c)
 
