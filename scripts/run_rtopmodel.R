@@ -10,7 +10,7 @@ run_rtopmodel_x <- function(x,
 				      output="output.txt",
 				      sim="sim"),
 			    append=FALSE){
-	parval <- write_rtopmodel_x(path$params, x=x)
+	parval <- write_rtopmodel_x(path$params, x)
 
 	if(append){
 		sink(sprintf("%s/x.txt", path$sim), append=TRUE)
