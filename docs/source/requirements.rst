@@ -5,6 +5,7 @@ Software requirements
 ---------------------
 
 * Operating systems: `Linux <https://www.kernel.org/>`_, `macOS <https://www.apple.com/macos/>`_, `Windows <https://www.microsoft.com/windows/>`_
+* `Git <https://git-scm.com/>`_
 * `GRASS GIS 7.8 <https://grass.osgeo.org/>`_
 
   * `r.accumulate <https://grass.osgeo.org/grass78/manuals/addons/r.accumulate.html>`_ to be installed using `g.extension <https://grass.osgeo.org/grass78/manuals/g.extension.html>`_
@@ -15,6 +16,23 @@ Software requirements
   * `fOptions package <https://cran.r-project.org/web/packages/fOptions/index.html>`_
   * `plotrix package <https://cran.r-project.org/web/packages/plotrix/index.html>`_
 * `Workshop Python/R scripts <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/tree/master/scripts>`_
+
+GitHub repository for the workshop
+----------------------------------
+
+Clone the workshop repository from https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop.
+
+.. code-block:: bash
+
+    git clone https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop.git
+
+We will run this workshop from foss4g-2021-r.topmodel-workshop/run.
+
+.. code-block:: bash
+
+    cd foss4g-2021-r.topmodel-workshop
+    mkdir run
+    cd run
 
 Data requirements
 -----------------

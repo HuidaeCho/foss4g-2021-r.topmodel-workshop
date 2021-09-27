@@ -94,13 +94,13 @@ Parametrization for ISPSO
 -------------------------
 
 Like many other optimization algorithms, `ISPSO <https://idea.isnew.info/ispso.html>`_ prefers normalized search spaces to reduce bias in certain parameter dimensions.
-The doit.R script takes parameter samples from a unit hypercube in :math:`[0,1]^D` where :math:`D` is the number of dimensions or model parameters.
+The calibrate.R script takes parameter samples from a unit hypercube in :math:`[0,1]^D` where :math:`D` is the number of dimensions or model parameters.
 This normalized search space is expanded to the r.topmodel parameter ranges linearly mapping 0 and 1 to the minimum and maximum parameter limits, respectively.
 
 Running calibration
 -------------------
 
-Create or empty the sim directory, copy params_init.txt to `params.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/params.txt>`_, and run doit.R.
+Create or empty the sim directory, copy params_init.txt to `params.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/params.txt>`_, and run calibrate.R.
 For this workshop, we use the Nash-Sutcliffe efficiency (NSE) coefficient as the objective function, but you can change it to another one in config.R.
 
 .. code-block:: bash
@@ -108,7 +108,7 @@ For this workshop, we use the Nash-Sutcliffe efficiency (NSE) coefficient as the
     cp params_init.txt params.txt
     mkdir sim
     # or rm sim/*
-    ../scripts/doit.R
+    ../scripts/calibrate.R
 
 In a separate R session, inspect the declining pattern of the objective function.
 

@@ -26,11 +26,11 @@ Directory structure
 * `grassdata.zip <https://workshop.isnew.info/foss4g-2021-r.topmodel/data/grassdata.zip>`_
 * `NHD_H_0313_HU4_Shape.zip <https://workshop.isnew.info/foss4g-2021-r.topmodel/data/NHD_H_0313_HU4_Shape.zip>`_
 
-:doc:`r.topmodel-parameters.rst`
+:doc:`r.topmodel-parameters`
 
 * `params_init.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/params_init.txt>`_
 
-:doc:`r.topmoel-topidxstats.rst`
+:doc:`r.topmoel-topidxstats`
 
 * `topidxstats.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/topidxstats.txt>`_
 
@@ -54,7 +54,7 @@ Directory structure
 
 * `obs.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/obs.txt>`_
 
-:doc:`calibration.rst`
+:doc:`calibration`
 
 * `input_c_evap.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/input_c_evap.txt>`_
 * `input_c_pet.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/input_c_pet.txt>`_
@@ -67,6 +67,7 @@ Directory structure
 * `sim <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/sim>`_
 * `output_c.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/output_c.txt>`_
 
-:doc:`validataion.rst`
+:doc:`validataion`
 
 * `output_v.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/output_v.txt>`_
+* `sim_v.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/sim_v.txt>`_
