@@ -66,6 +66,7 @@ Directory structure
 * `params.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/params.txt>`_
 * `sim <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/sim>`_
 * `output_c.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/output_c.txt>`_
+* `sim_c.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/sim_c.txt>`_
 
 :doc:`validataion`
 

@@ -148,7 +148,7 @@ Let's validate our result.
 
     calc_nse(obs_c, sim_c, skip_c)
 
-This step will create the final `output_c <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/output_c>`_.
+This step will create the final `output_c.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/output_c.txt>`_ and `sim_c.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/sim_c.txt>`_.
 
 Inspecting calibration result
 -----------------------------
