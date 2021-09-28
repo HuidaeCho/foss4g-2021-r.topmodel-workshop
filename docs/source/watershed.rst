@@ -86,7 +86,7 @@ If you face any issues with this step, download and extract `grassdata.zip <http
 
     curl -o grassdata.zip https://workshop.isnew.info/foss4g-2021-r.topmodel/data/grassdata.zip
     unzip grassdata.zip
-    grass grassdata/epsg2240
+    grass grassdata/epsg2240/PERMANENT
     g.gui
     g.region raster=n34_w084_1arc_v3
     # display n34_w084_1arc_v3
@@ -115,7 +115,7 @@ Check Hydrography, National Hydrography Dataset (NHD), HU-4 Subregion, and Shape
    :align: center
    :width: 75%
 
-Download `NHD_H_0313_HU4_Shape.zip <https://workshop.isnew.info/foss4g-2021-r.topmodel/data/NHD_H_0313_HU4_Shape.zip>`_.
+Download `NHD_H_0313_HU4_Shape.zip <https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/NHD/HU4/HighResolution/Shape/NHD_H_0313_HU4_Shape.zip>`_.
 
 .. image:: images/nationalmap-download.png
    :align: center
@@ -135,7 +135,7 @@ Import the stream data.
 .. code-block:: bash
 
     unzip NHD_H_0313_HU4_Shape.zip
-    v.import Shape/NHDFlowline.shp output=nhd_h_0601_hu4_flowlines
+    v.import Shape/NHDFlowline.shp output=nhd_h_0313_hu4_flowlines
 
 Snap the outlet to the stream network.
 Create the shortest line from the outlet to the nearest stream.
@@ -143,7 +143,7 @@ Create the shortest line from the outlet to the nearest stream.
 .. code-block:: bash
 
     v.db.addcolumn map=outlet col="to_cat int"
-    v.distance from=outlet to=nhd_h_0601_hu4_flowlines output=outlet_to_nhd upload=cat column=to_cat
+    v.distance from=outlet to=nhd_h_0313_hu4_flowlines output=outlet_to_nhd upload=cat column=to_cat
 
 Extract the end node of the connecting line.
 
@@ -168,12 +168,12 @@ Read the stream category at the outlet.
 
     v.db.select map=outlet columns=to_cat
 
-That is 10939 in the nhd_h_0601_hu4_flowlines vector.
+That is 10939 in the nhd_h_0313_hu4_flowlines vector.
 Create a new vector that contains the end node of this stream feature.
 
 .. code-block:: bash
 
-    echo P 1 10939 100% | v.segment input=nhd_h_0601_hu4_flowlines output=stream_end
+    echo P 1 10939 100% | v.segment input=nhd_h_0313_hu4_flowlines output=stream_end
 
 Read the coordinates of the snapped outlet.
 
@@ -182,14 +182,15 @@ Read the coordinates of the snapped outlet.
     v.to.db -p map=outlet_snapped option=coor
 
 The outlet is at 2460369.59482209,1652285.55287325.
-Make a copy of nhd_h_0601_hu4_flowlines and break the stream at the outlet.
+Make a copy of nhd_h_0313_hu4_flowlines and break the stream at the outlet.
 
 .. code-block:: bash
 
-    g.copy vector=nhd_h_0601_hu4_flowlines,streams
+    g.copy vector=nhd_h_0313_hu4_flowlines,streams
     v.edit map=streams tool=break coor=2460369.59482209,1652285.55287325
 
 Read the coordinates of the stream end.
+
 .. code-block:: bash
 
     v.to.db -p map=stream_end option=coor

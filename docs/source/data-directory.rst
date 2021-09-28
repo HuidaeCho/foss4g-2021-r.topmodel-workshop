@@ -10,7 +10,7 @@ Since GitHub does not support files larger than 100 MB, I tried `Git Large File 
 Learning this Git extension, I hit my bandwidth limit of 1 GB in just one day.
 Two files are missing from the repository:
 
-* `grassdata.zip <https://workshop.isnew.info/foss4g-2021-r.topmodel/data/grassdata.zip>`_ (536 MB)
+* `grassdata.zip <https://workshop.isnew.info/foss4g-2021-r.topmodel/data/grassdata.zip>`_ (521 MB)
 * `NHD_H_0313_HU4_Shape.zip <https://workshop.isnew.info/foss4g-2021-r.topmodel/data/NHD_H_0313_HU4_Shape.zip>`_ (138 MB)
 
 Directory structure
