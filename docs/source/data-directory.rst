@@ -30,7 +30,7 @@ Directory structure
 
 * `params_init.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/params_init.txt>`_
 
-:doc:`r.topmoel-topidxstats`
+:doc:`r.topmodel-topidxstats`
 
 * `topidxstats.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/topidxstats.txt>`_
 
