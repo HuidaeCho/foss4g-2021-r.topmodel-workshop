@@ -16,6 +16,8 @@
    usgs-streamflow-data
    calibration
    validation
+   random-parameter-sampling
+   technical-references
 
 Physically-based hydrologic modeling using GRASS GIS r.topmodel
 ===============================================================

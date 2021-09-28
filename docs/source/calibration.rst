@@ -128,7 +128,7 @@ It took me about 2 minutes to populate `the sim directory <https://github.com/Hu
 
 What is your best NSE ``1-min(obj)``?
 I got 0.8035311.
-Let's validate our result.
+Let's validate this number.
 
 .. code-block:: R
 
@@ -150,8 +150,8 @@ Let's validate our result.
 
 This step will create the final `output_c.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/output_c.txt>`_ and `sim_c.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/sim_c.txt>`_.
 
-Inspecting calibration result
------------------------------
+Inspecting the calibration result
+---------------------------------
 
 In R, let's compare the observed and best simulated time series.
 
@@ -174,4 +174,33 @@ In R, let's compare the observed and best simulated time series.
    :width: 75%
 
 We can see that the best model tends to overestimate baseflows.
+Overall, simulated hydrographs decline at a slower rate than observed ones.
 This behavior might be attributed to the use of the NSE as the objective function because the NSE puts more weights on peak flows.
+It might be the single-watershed configuration or the infiltration calculation in r.topmodel.
+Probably, it might be the structure of TOPMODEL itself that has failed to simulate baseflows.
+Let's see if r.topmodel has completely failed to simulate baseflows by plotting all 1,000 simulations.
+In the Generalized Likelihood Uncertainty Estimation (GLUE) framework (Beven and Binley, 2014), these simulations from the same model structure are called "models."
+
+.. code-block:: R
+
+    sim_c <- c()
+    for(i in 1:1000){
+     	file <- sprintf("sim/sim_c_%04d.txt", i)
+     	sim_c <- rbind(sim_c, read.table(file)[[1]])
+    }
+
+    matplot(t(sim_c), type="l", col="green", lty=1)
+    lines(obs_c, col="red")
+    legend("topleft", legend=c("obs_c", "sim_c"), col=c("red", "green"), lty=1, bty="n")
+
+.. image:: images/obs-c-sim-c-ensemble.png
+   :align: center
+   :width: 75%
+
+From the above plot, the observed streamflow is mostly within the simulated range.
+If we consider these "models" from the same model structure of TOPMODEL different models, constructing an ensemble model may be a good idea because no models are perfect and they all come with uncertainty.
+
+References
+----------
+
+Beven, K., Binley, A., 2014. GLUE - 20 Years On. Hydrological Processes 28 (24), 5897-5918. :doi:`10.1002/hyp.10082`.

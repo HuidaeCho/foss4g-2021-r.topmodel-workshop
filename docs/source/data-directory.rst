@@ -68,7 +68,12 @@ Directory structure
 * `output_c.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/output_c.txt>`_
 * `sim_c.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/sim_c.txt>`_
 
-:doc:`validataion`
+:doc:`validation`
 
 * `output_v.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/output_v.txt>`_
 * `sim_v.txt <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/sim_v.txt>`_
+
+:doc:`random-parameter-sampling`
+
+* `config_random.R <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/config_random.R>`_
+* `sim_random <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/sim_random>`_
