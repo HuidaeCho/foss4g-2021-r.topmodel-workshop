@@ -15,7 +15,7 @@ Copy the latitude and longitude to a text editor.
 We will need this information later.
 
 Select Georgia and delineate a watershed at just the downstream cell of the gauge.
-Download `the watershed Shapefile <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/streamstats_02331600_watershed.zip>`_ as streamstats_02331600_watershed.zip.
+Download the watershed Shapefile as `streamstats_02331600_watershed.zip <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw/master/data/streamstats_02331600_watershed.zip>`_.
 
 .. image:: images/streamstats-02331600-watershed.png
    :align: center
