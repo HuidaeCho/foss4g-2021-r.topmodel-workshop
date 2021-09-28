@@ -6,3 +6,4 @@ data/grassdata.zip
 __pycache__/
 docs/build/
 docs/publish.sh
+run/
