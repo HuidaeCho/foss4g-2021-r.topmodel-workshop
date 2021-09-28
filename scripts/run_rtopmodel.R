@@ -1,3 +1,7 @@
+# AUTHOR:       Huidae Cho
+# COPYRIGHT:    (C) 2021 by Huidae Cho
+# LICENSE:      GNU General Public License v3
+
 par.name <- c("qs0", "lnTe", "m", "Sr0", "Srmax", "td", "vr", "K0", "psi", "dtheta")
 par.dim <- length(par.name);
 par.min <- c(0, -7, 0.001, 0, 0.005, 0.001, 50, 0.0001, 0.01, 0.01)

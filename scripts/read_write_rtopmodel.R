@@ -1,3 +1,7 @@
+# AUTHOR:       Huidae Cho
+# COPYRIGHT:    (C) 2021 by Huidae Cho
+# LICENSE:      GNU General Public License v3
+
 write_rtopmodel_params <- function(file="params.txt",
 				   qs0=NULL, lnTe=NULL, m=NULL, Sr0=NULL,
 				   Srmax=NULL, td=NULL, vch=NULL, vr=NULL,

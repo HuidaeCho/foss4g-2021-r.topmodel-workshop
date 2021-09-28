@@ -1,4 +1,8 @@
 #!/usr/bin/env Rscript
+# AUTHOR:       Huidae Cho
+# COPYRIGHT:    (C) 2021 by Huidae Cho
+# LICENSE:      GNU General Public License v3
+
 source("config_random.R")
 source("../scripts/ispso.R")
 source("../scripts/read_write_rtopmodel.R")
