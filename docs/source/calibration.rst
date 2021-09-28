@@ -69,7 +69,7 @@ Open `config.R <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw
     	       input="input_v_pet.txt",
     	       output="output_v.txt",
     	       obs="obs_v.txt")
-    
+
     calc_nse <- function(obs, sim, skip=0){
     	if(skip > 0){
     		obs <- obs[-(1:skip)]
@@ -77,7 +77,7 @@ Open `config.R <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/raw
     	}
     	1-sum((sim-obs)^2)/sum((mean(obs)-obs)^2)
     }
-    
+
     calc_obj <- function(obs, sim, skip=0){
     	1-calc_nse(obs, sim, skip)
     }
