@@ -190,6 +190,7 @@ Make a copy of nhd_h_0313_hu4_flowlines and break the stream at the outlet.
     v.edit map=streams tool=break coor=2460369.59482209,1652285.55287325
 
 Read the coordinates of the stream end.
+
 .. code-block:: bash
 
     v.to.db -p map=stream_end option=coor
