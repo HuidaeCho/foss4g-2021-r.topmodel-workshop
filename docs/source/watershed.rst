@@ -115,7 +115,7 @@ Check Hydrography, National Hydrography Dataset (NHD), HU-4 Subregion, and Shape
    :align: center
    :width: 75%
 
-Download `NHD_H_0313_HU4_Shape.zip <https://workshop.isnew.info/foss4g-2021-r.topmodel/data/NHD_H_0313_HU4_Shape.zip>`_.
+Download `NHD_H_0313_HU4_Shape.zip <https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/NHD/HU4/HighResolution/Shape/NHD_H_0313_HU4_Shape.zip>`_.
 
 .. image:: images/nationalmap-download.png
    :align: center
