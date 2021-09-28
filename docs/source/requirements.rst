@@ -11,10 +11,14 @@ Software requirements
   * `r.accumulate <https://grass.osgeo.org/grass78/manuals/addons/r.accumulate.html>`_ to be installed using `g.extension <https://grass.osgeo.org/grass78/manuals/g.extension.html>`_
 
 * `Python 3 <https://www.python.org/>`_ installed with GRASS GIS
+
   * `ProjPicker <https://projpicker.readthedocs.io/>`_
+
 * `R <https://www.r-project.org/>`_
+
   * `fOptions package <https://cran.r-project.org/web/packages/fOptions/index.html>`_
   * `plotrix package <https://cran.r-project.org/web/packages/plotrix/index.html>`_
+
 * `Workshop Python/R scripts <https://github.com/HuidaeCho/foss4g-2021-r.topmodel-workshop/tree/master/scripts>`_
 
 GitHub repository for the workshop
