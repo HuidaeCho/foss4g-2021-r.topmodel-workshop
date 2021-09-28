@@ -1,2 +1,1 @@
-six
 sphinx_press_theme
