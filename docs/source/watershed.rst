@@ -135,7 +135,7 @@ Import the stream data.
 .. code-block:: bash
 
     unzip NHD_H_0313_HU4_Shape.zip
-    v.import Shape/NHDFlowline.shp output=nhd_h_0601_hu4_flowlines
+    v.import Shape/NHDFlowline.shp output=nhd_h_0313_hu4_flowlines
 
 Snap the outlet to the stream network.
 Create the shortest line from the outlet to the nearest stream.
@@ -143,7 +143,7 @@ Create the shortest line from the outlet to the nearest stream.
 .. code-block:: bash
 
     v.db.addcolumn map=outlet col="to_cat int"
-    v.distance from=outlet to=nhd_h_0601_hu4_flowlines output=outlet_to_nhd upload=cat column=to_cat
+    v.distance from=outlet to=nhd_h_0313_hu4_flowlines output=outlet_to_nhd upload=cat column=to_cat
 
 Extract the end node of the connecting line.
 
@@ -168,12 +168,12 @@ Read the stream category at the outlet.
 
     v.db.select map=outlet columns=to_cat
 
-That is 10939 in the nhd_h_0601_hu4_flowlines vector.
+That is 10939 in the nhd_h_0313_hu4_flowlines vector.
 Create a new vector that contains the end node of this stream feature.
 
 .. code-block:: bash
 
-    echo P 1 10939 100% | v.segment input=nhd_h_0601_hu4_flowlines output=stream_end
+    echo P 1 10939 100% | v.segment input=nhd_h_0313_hu4_flowlines output=stream_end
 
 Read the coordinates of the snapped outlet.
 
@@ -182,11 +182,11 @@ Read the coordinates of the snapped outlet.
     v.to.db -p map=outlet_snapped option=coor
 
 The outlet is at 2460369.59482209,1652285.55287325.
-Make a copy of nhd_h_0601_hu4_flowlines and break the stream at the outlet.
+Make a copy of nhd_h_0313_hu4_flowlines and break the stream at the outlet.
 
 .. code-block:: bash
 
-    g.copy vector=nhd_h_0601_hu4_flowlines,streams
+    g.copy vector=nhd_h_0313_hu4_flowlines,streams
     v.edit map=streams tool=break coor=2460369.59482209,1652285.55287325
 
 Read the coordinates of the stream end.
