@@ -86,7 +86,7 @@ If you face any issues with this step, download and extract `grassdata.zip <http
 
     curl -o grassdata.zip https://workshop.isnew.info/foss4g-2021-r.topmodel/data/grassdata.zip
     unzip grassdata.zip
-    grass grassdata/epsg2240
+    grass grassdata/epsg2240/PERMANENT
     g.gui
     g.region raster=n34_w084_1arc_v3
     # display n34_w084_1arc_v3
