@@ -108,7 +108,13 @@ For this workshop, we use the Nash-Sutcliffe efficiency (NSE) coefficient as the
     cp params_init.txt params.txt
     mkdir sim
     # or rm sim/*
-    ../scripts/calibrate.R
+
+In R, install required packages and run calibrate.R.
+
+.. code-block:: R
+
+    install.packages(c("fOptions", "plotrix"))
+    source("../scripts/calibrate.R")
 
 In a separate R session, inspect the declining pattern of the objective function.
 
