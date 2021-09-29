@@ -36,7 +36,7 @@ run_rtopmodel <- function(path=list(params="params.txt",
 	cmd <- function(...) system(sprintf(...))
 
 	cmd("%s --o parameters=%s topidxstats=%s input=%s output=%s",
-	    if(.Platform$OS.type == "window") "r.topmodel.exe"
+	    if(.Platform$OS.type == "windows") "r.topmodel.exe"
 	    else "GRASS_VERSION=-1 r.topmodel",
 	    path$params, path$topidxstats, path$input, path$output)
 
