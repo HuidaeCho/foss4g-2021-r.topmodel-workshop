@@ -135,14 +135,14 @@ Import the stream data.
 .. code-block:: bash
 
     unzip NHD_H_0313_HU4_Shape.zip
-    v.import Shape/NHDFlowline.shp output=nhd_h_0313_hu4_flowlines
+    v.import input=Shape/NHDFlowline.shp output=nhd_h_0313_hu4_flowlines
 
 Snap the outlet to the stream network.
 Create the shortest line from the outlet to the nearest stream.
 
 .. code-block:: bash
 
-    v.db.addcolumn map=outlet col="to_cat int"
+    v.db.addcolumn map=outlet columns="to_cat int"
     v.distance from=outlet to=nhd_h_0313_hu4_flowlines output=outlet_to_nhd upload=cat column=to_cat
 
 Extract the end node of the connecting line.
