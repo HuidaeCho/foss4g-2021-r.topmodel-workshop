@@ -35,7 +35,9 @@ run_rtopmodel <- function(path=list(params="params.txt",
 				    output="output.txt")){
 	cmd <- function(...) system(sprintf(...))
 
-	cmd("GRASS_VERBOSE=-1 r.topmodel --o parameters=%s topidxstats=%s input=%s output=%s",
+	cmd("%s --o parameters=%s topidxstats=%s input=%s output=%s",
+	    if(.Platform$OS.type == "window") "r.topmodel.exe"
+	    else "GRASS_VERSION=-1 r.topmodel",
 	    path$params, path$topidxstats, path$input, path$output)
 
 	read_rtopmodel_output(path$output, "Qt")
