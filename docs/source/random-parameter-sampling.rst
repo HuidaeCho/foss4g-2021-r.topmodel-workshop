@@ -34,6 +34,12 @@ We can compare the performance of calibration and random sampling up to 1,000 ru
     plot(cummin(obj), ylim=c(0, 0.5), type="l", xlab="Model runs")
     lines(cummin(obj_random[1:1000]), col="red")
 
+This figure shows how fast calibration converges to the final state compared to random sampling.
+
+.. image:: images/obj-obj-random.png
+   :align: center
+   :width: 75%
+
 Sensitivity analysis
 --------------------
 
@@ -50,7 +56,7 @@ Plot x-obj dotty plots to see how sensitive the objective function is to each pa
 
 .. image:: images/x-obj-random.png
    :align: center
-   :width: 100%
+   :width: 75%
 
 From these dotty plots, we can see that lnTe, m, and Srmax are sensitive parameters.
 
@@ -63,4 +69,4 @@ Let's create a similar plot using the calibration result.
 
 .. image:: images/x-obj.png
    :align: center
-   :width: 100%
+   :width: 75%
