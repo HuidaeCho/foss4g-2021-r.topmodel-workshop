@@ -39,7 +39,7 @@ Cho (2000) reimplemented his FORTRAN code as a GRASS GIS module in C, based on w
 Cho (2020) developed r.accumulate, an efficient GRASS GIS hydrologic module for calculating one of its parameters.
 We will use these and other modules to create a r.topmodel model and use R scripts including Isolated-Speciation-based Particle Swarm Optimization (ISPSO) (Cho et al. 2011), a particle swarm optimization algorithm in R, to calibrate its parameters.
 
-Authors and affiliations
+Author and affiliations
 ------------------------
 
 .. image:: images/portrait.png
