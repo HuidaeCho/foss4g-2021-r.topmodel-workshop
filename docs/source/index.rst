@@ -55,7 +55,8 @@ He is a member of the GRASS GIS Development Team and Project Steering Committee.
 Level
 -----
 
-Basic. General basic knowledge is required.
+Basic.
+General basic knowledge is required.
 
 Requirements for the attendees
 ------------------------------
