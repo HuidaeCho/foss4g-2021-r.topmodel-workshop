@@ -254,7 +254,7 @@ The same command will calculate the flow accumulation and longest flow path as w
 .. code-block:: bash
 
     g.extension extension=r.accumulate
-    r.accumulate direction=fdir outlet=outlet subwatershed=watershed accumulation=facc longest_flow_path=lfp
+    r.accumulate direction=fdir outlet=outlet_snapped subwatershed=watershed accumulation=facc longest_flow_path=lfp
 
 Convert the watershed raster to vector.
 
